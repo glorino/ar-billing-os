@@ -1,197 +1,196 @@
 "use client";
 
-import * as React from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { format, formatDistanceToNow } from "date-fns";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Search, Mail, Phone, FileText, AlertCircle, Filter } from "lucide-react";
-import { formatCurrency } from "@/lib/utils";
+import {
+  AlertCircle,
+  Clock,
+  CheckCircle2,
+  Mail,
+  Phone,
+  FileText,
+  DollarSign,
+  Users,
+  ArrowUpRight,
+  Send,
+  MoreHorizontal,
+  Filter,
+  Search,
+} from "lucide-react";
 
-const overdueInvoices = [
-  { id: "1", invoiceNumber: "INV-2024-003", customer: "Global Solutions", amount: 3400, daysOverdue: 28, lastAction: "Email reminder sent", lastActionDate: "2024-01-20T10:30:00Z", collectionStatus: "reminder" },
-  { id: "2", invoiceNumber: "INV-2024-006", customer: "Cloud Systems", amount: 10200, daysOverdue: 14, lastAction: "Phone call completed", lastActionDate: "2024-01-18T14:20:00Z", collectionStatus: "reminder" },
-  { id: "3", invoiceNumber: "INV-2024-008", customer: "Net Solutions", amount: 9800, daysOverdue: 45, lastAction: "Final demand letter sent", lastActionDate: "2024-01-15T09:00:00Z", collectionStatus: "final_notice" },
+const stats = [
+  { label: "Active Cases", value: "7", change: "+2 this week", icon: AlertCircle, color: "text-warning", bgColor: "bg-warning/10" },
+  { label: "Total At Risk", value: "$42,180", change: "15% of outstanding", icon: DollarSign, color: "text-destructive", bgColor: "bg-destructive/10" },
+  { label: "Resolved This Month", value: "12", change: "+3 from last month", icon: CheckCircle2, color: "text-success", bgColor: "bg-success/10" },
 ];
 
-const collectionActions = [
-  { id: "1", type: "email", customer: "Global Solutions", description: "Second payment reminder", timestamp: "2024-01-20T10:30:00Z", user: "John Smith" },
-  { id: "2", type: "phone", customer: "Cloud Systems", description: "Follow-up call completed", timestamp: "2024-01-18T14:20:00Z", user: "Sarah Johnson" },
-  { id: "3", type: "letter", customer: "Net Solutions", description: "Final demand letter sent", timestamp: "2024-01-15T09:00:00Z", user: "John Smith" },
-  { id: "4", type: "email", customer: "Acme Corp", description: "Payment plan proposal", timestamp: "2024-01-12T11:00:00Z", user: "Mike Williams" },
+const cases = [
+  { id: "COL-001", customer: "Global Solutions", email: "pay@globalsolutions.com", amount: 23100, daysOverdue: 45, status: "escalated", assignedTo: "Sarah Johnson", lastAction: "Final demand letter sent", lastActionDate: "Jan 15, 2024" },
+  { id: "COL-002", customer: "DataFlow Systems", email: "billing@dataflow.io", amount: 9350, daysOverdue: 32, status: "in_progress", assignedTo: "John Smith", lastAction: "Phone call completed", lastActionDate: "Jan 18, 2024" },
+  { id: "COL-003", customer: "CloudNine Ltd", email: "ap@cloudnine.dev", amount: 4200, daysOverdue: 21, status: "in_progress", assignedTo: "Mike Williams", lastAction: "Email reminder sent", lastActionDate: "Jan 20, 2024" },
+  { id: "COL-004", customer: "Pinnacle Corp", email: "finance@pinnacle.com", amount: 3530, daysOverdue: 18, status: "new", assignedTo: "Unassigned", lastAction: "Case created", lastActionDate: "Jan 22, 2024" },
+  { id: "COL-005", customer: "TechStart Inc", email: "accounts@techstart.io", amount: 1800, daysOverdue: 14, status: "in_progress", assignedTo: "Sarah Johnson", lastAction: "Payment plan proposed", lastActionDate: "Jan 19, 2024" },
+  { id: "COL-006", customer: "Digital Ventures", email: "finance@digitalventures.co", amount: 1200, daysOverdue: 10, status: "new", assignedTo: "Unassigned", lastAction: "Case created", lastActionDate: "Jan 22, 2024" },
 ];
 
-function getStatusVariant(status: string): "default" | "secondary" | "destructive" | "success" | "warning" {
-  const variants: Record<string, "default" | "secondary" | "destructive" | "success" | "warning"> = {
-    reminder: "warning",
-    final_notice: "destructive",
-    collection_agency: "destructive",
-    resolved: "success",
-  };
-  return variants[status] || "secondary";
-}
+const statusConfig: Record<string, { bg: string; text: string; dot: string; label: string }> = {
+  new: { bg: "bg-primary/10", text: "text-primary", dot: "bg-primary", label: "New" },
+  in_progress: { bg: "bg-warning/10", text: "text-warning", dot: "bg-warning", label: "In Progress" },
+  escalated: { bg: "bg-destructive/10", text: "text-destructive", dot: "bg-destructive", label: "Escalated" },
+  resolved: { bg: "bg-success/10", text: "text-success", dot: "bg-success", label: "Resolved" },
+};
 
-function getActivityIcon(type: string) {
-  switch (type) {
-    case "email": return <Mail className="h-4 w-4" />;
-    case "phone": return <Phone className="h-4 w-4" />;
-    case "letter": return <FileText className="h-4 w-4" />;
-    case "demand": return <AlertCircle className="h-4 w-4" />;
-    default: return <Mail className="h-4 w-4" />;
-  }
-}
-
-function getActivityColor(type: string) {
-  switch (type) {
-    case "email": return "bg-blue-100 text-blue-600";
-    case "phone": return "bg-green-100 text-green-600";
-    case "letter": return "bg-purple-100 text-purple-600";
-    case "demand": return "bg-red-100 text-red-600";
-    default: return "bg-gray-100 text-gray-600";
-  }
+function formatMoney(amount: number): string {
+  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0 }).format(amount);
 }
 
 export default function CollectionsPage() {
-  const [search, setSearch] = React.useState("");
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+
+  const filtered = cases.filter((c) => {
+    const matchesSearch =
+      c.customer.toLowerCase().includes(search.toLowerCase()) ||
+      c.id.toLowerCase().includes(search.toLowerCase());
+    const matchesStatus = statusFilter === "all" || c.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 animate-fade-in">
+      {/* Header */}
       <div>
-        <h2 className="text-2xl font-bold tracking-tight">Collections</h2>
-        <p className="text-gray-500">Manage overdue invoices and collection activities.</p>
+        <h1 className="text-2xl font-bold tracking-tight">Collections</h1>
+        <p className="text-sm text-muted-foreground mt-1">
+          Manage overdue invoices and track collection activities.
+        </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card>
-          <CardContent className="pt-6">
-            <div className="text-center">
-              <p className="text-sm text-gray-500">Overdue Invoices</p>
-              <p className="text-3xl font-bold text-red-600">3</p>
+      {/* Stats */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {stats.map((stat) => (
+          <div key={stat.label} className="rounded-xl border bg-card p-5 card-elevated-hover cursor-default">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
+              <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${stat.bgColor}`}>
+                <stat.icon className={`h-4 w-4 ${stat.color}`} />
+              </div>
             </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <div className="text-center">
-              <p className="text-sm text-gray-500">Amount at Risk</p>
-              <p className="text-3xl font-bold text-red-600">{formatCurrency(23400)}</p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <div className="text-center">
-              <p className="text-sm text-gray-500">Avg Days Overdue</p>
-              <p className="text-3xl font-bold">29</p>
-            </div>
-          </CardContent>
-        </Card>
+            <p className="mt-3 text-2xl font-bold tracking-tight font-mono-nums">{stat.value}</p>
+            <p className="mt-1 text-xs text-muted-foreground">{stat.change}</p>
+          </div>
+        ))}
       </div>
 
-      <Tabs defaultValue="overdue">
-        <TabsList>
-          <TabsTrigger value="overdue">Overdue Invoices</TabsTrigger>
-          <TabsTrigger value="activity">Collection Activity</TabsTrigger>
-        </TabsList>
+      {/* Filters */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-3">
+          <div className="relative max-w-sm">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search cases..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="h-10 w-full rounded-lg border bg-card pl-9 pr-4 text-sm placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30"
+            />
+          </div>
+          <div className="flex gap-1.5">
+            {["all", "new", "in_progress", "escalated"].map((s) => (
+              <button
+                key={s}
+                onClick={() => setStatusFilter(s)}
+                className={`rounded-lg px-3 py-2 text-xs font-medium transition-colors ${
+                  statusFilter === s
+                    ? "bg-primary/10 text-primary"
+                    : "bg-card border text-muted-foreground hover:bg-muted"
+                }`}
+              >
+                {s === "all" ? "All" : s === "in_progress" ? "In Progress" : s.charAt(0).toUpperCase() + s.slice(1)}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
 
-        <TabsContent value="overdue" className="mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Overdue Invoices Requiring Action</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="rounded-lg border border-gray-200">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Invoice</TableHead>
-                      <TableHead>Customer</TableHead>
-                      <TableHead>Amount</TableHead>
-                      <TableHead>Days Overdue</TableHead>
-                      <TableHead>Collection Status</TableHead>
-                      <TableHead>Last Action</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {overdueInvoices.map((invoice) => (
-                      <TableRow key={invoice.id}>
-                        <TableCell>
-                          <Link href={`/invoices/${invoice.id}`} className="font-medium text-blue-600 hover:underline">
-                            {invoice.invoiceNumber}
-                          </Link>
-                        </TableCell>
-                        <TableCell>{invoice.customer}</TableCell>
-                        <TableCell className="font-medium text-red-600">{formatCurrency(invoice.amount)}</TableCell>
-                        <TableCell>
-                          <Badge variant="destructive">{invoice.daysOverdue} days</Badge>
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant={getStatusVariant(invoice.collectionStatus)}>
-                            {invoice.collectionStatus.replace("_", " ")}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-sm text-gray-500">
-                          {invoice.lastAction}
-                          <br />
-                          <span className="text-xs">
-                            {formatDistanceToNow(new Date(invoice.lastActionDate), { addSuffix: true })}
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex gap-1">
-                            <Button variant="outline" size="sm">
-                              <Mail className="h-4 w-4" />
-                            </Button>
-                            <Button variant="outline" size="sm">
-                              <Phone className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="activity" className="mt-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Collection Activities</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {collectionActions.map((action) => (
-                  <div key={action.id} className="flex items-start gap-4 p-4 rounded-lg border border-gray-100">
-                    <div className={`flex h-8 w-8 items-center justify-center rounded-full ${getActivityColor(action.type)}`}>
-                      {getActivityIcon(action.type)}
+      {/* Cases Table */}
+      <div className="rounded-xl border bg-card card-elevated overflow-hidden">
+        <table className="w-full">
+          <thead>
+            <tr className="bg-muted/30">
+              <th className="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Case</th>
+              <th className="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Customer</th>
+              <th className="px-6 py-3 text-right text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Amount</th>
+              <th className="px-6 py-3 text-center text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Days Overdue</th>
+              <th className="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Status</th>
+              <th className="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Assigned To</th>
+              <th className="px-6 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Last Action</th>
+              <th className="px-6 py-3 text-right text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map((c) => {
+              const s = statusConfig[c.status];
+              return (
+                <tr key={c.id} className="border-t border-border table-row-hover">
+                  <td className="px-6 py-3.5">
+                    <span className="text-sm font-medium text-primary">{c.id}</span>
+                  </td>
+                  <td className="px-6 py-3.5">
+                    <div>
+                      <p className="text-sm font-medium">{c.customer}</p>
+                      <p className="text-xs text-muted-foreground">{c.email}</p>
                     </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <p className="font-medium">{action.customer}</p>
-                        <p className="text-sm text-gray-500">
-                          {formatDistanceToNow(new Date(action.timestamp), { addSuffix: true })}
-                        </p>
-                      </div>
-                      <p className="text-sm text-gray-600">{action.description}</p>
-                      <p className="text-xs text-gray-500 mt-1">by {action.user}</p>
+                  </td>
+                  <td className="px-6 py-3.5 text-right text-sm font-semibold font-mono-nums text-destructive">
+                    {formatMoney(c.amount)}
+                  </td>
+                  <td className="px-6 py-3.5 text-center">
+                    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                      c.daysOverdue > 30 ? "bg-destructive/10 text-destructive" : c.daysOverdue > 14 ? "bg-warning/10 text-warning" : "bg-muted text-muted-foreground"
+                    }`}>
+                      {c.daysOverdue}d
+                    </span>
+                  </td>
+                  <td className="px-6 py-3.5">
+                    <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold ${s.bg} ${s.text}`}>
+                      <span className={`h-1.5 w-1.5 rounded-full ${s.dot}`} />
+                      {s.label}
+                    </span>
+                  </td>
+                  <td className="px-6 py-3.5 text-sm text-muted-foreground">{c.assignedTo}</td>
+                  <td className="px-6 py-3.5">
+                    <div>
+                      <p className="text-sm text-foreground">{c.lastAction}</p>
+                      <p className="text-xs text-muted-foreground">{c.lastActionDate}</p>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+                  </td>
+                  <td className="px-6 py-3.5 text-right">
+                    <div className="flex items-center justify-end gap-1">
+                      <button className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted transition-colors" title="Send Email">
+                        <Mail className="h-4 w-4" />
+                      </button>
+                      <button className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted transition-colors" title="Call">
+                        <Phone className="h-4 w-4" />
+                      </button>
+                      <button className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted transition-colors" title="More">
+                        <MoreHorizontal className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        {filtered.length === 0 && (
+          <div className="text-center py-12">
+            <CheckCircle2 className="h-12 w-12 text-muted-foreground/30 mx-auto mb-3" />
+            <p className="text-sm font-medium text-muted-foreground">No collection cases found</p>
+            <p className="text-xs text-muted-foreground/60 mt-1">Try adjusting your filters</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
