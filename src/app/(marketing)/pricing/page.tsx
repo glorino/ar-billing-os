@@ -19,6 +19,7 @@ const plans = [
       "Payment tracking",
     ],
     popular: false,
+    borderGradient: "linear-gradient(135deg, #667eea, #4facfe)",
   },
   {
     name: "Growth",
@@ -36,6 +37,7 @@ const plans = [
       "API access",
     ],
     popular: true,
+    borderGradient: "linear-gradient(135deg, #a855f7, #7c3aed)",
   },
   {
     name: "Enterprise",
@@ -54,6 +56,7 @@ const plans = [
       "Dedicated account manager",
     ],
     popular: false,
+    borderGradient: "linear-gradient(135deg, #22c55e, #16a34a)",
   },
 ]
 
@@ -87,89 +90,280 @@ export default function PricingPage() {
   return (
     <>
       {/* Hero */}
-      <section className="py-24 sm:py-32 text-center">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
-            Simple, transparent
-            <br />
-            <span className="text-primary">pricing</span>
+      <section
+        style={{
+          padding: "6rem 0",
+          textAlign: "center",
+          background: "linear-gradient(180deg, #f0f4ff 0%, #ffffff 100%)",
+        }}
+      >
+        <div style={{ maxWidth: "80rem", margin: "0 auto", padding: "0 1.5rem" }}>
+          <h1
+            style={{
+              fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
+              fontWeight: 800,
+              lineHeight: 1.1,
+              letterSpacing: "-0.03em",
+              color: "#1e293b",
+            }}
+          >
+            Simple, transparent{" "}
+            <span
+              style={{
+                background: "linear-gradient(135deg, #667eea, #764ba2, #f093fb)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              pricing
+            </span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
+          <p
+            style={{
+              margin: "1.5rem auto 0",
+              maxWidth: "42rem",
+              fontSize: "1.125rem",
+              color: "#64748b",
+              lineHeight: 1.7,
+            }}
+          >
             No hidden fees. No surprises. Choose the plan that fits your business.
           </p>
 
           {/* Toggle */}
-          <div className="mt-8 flex items-center justify-center gap-3">
-            <span className={`text-sm ${!annual ? "font-medium" : "text-muted-foreground"}`}>Monthly</span>
+          <div
+            style={{
+              marginTop: "2.5rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "0.75rem",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "0.875rem",
+                fontWeight: !annual ? 600 : 400,
+                color: !annual ? "#1e293b" : "#94a3b8",
+              }}
+            >
+              Monthly
+            </span>
             <button
               onClick={() => setAnnual(!annual)}
-              className={`relative h-6 w-11 rounded-full transition-colors ${annual ? "bg-primary" : "bg-muted"}`}
+              style={{
+                position: "relative",
+                height: "2rem",
+                width: "3.5rem",
+                borderRadius: "9999px",
+                border: "none",
+                cursor: "pointer",
+                backgroundColor: annual ? "#667eea" : "#e2e8f0",
+                transition: "background-color 0.3s ease",
+              }}
             >
               <div
-                className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${
-                  annual ? "translate-x-5" : "translate-x-0.5"
-                }`}
+                style={{
+                  position: "absolute",
+                  top: "3px",
+                  left: annual ? "calc(100% - 22px)" : "3px",
+                  height: "18px",
+                  width: "18px",
+                  borderRadius: "9999px",
+                  backgroundColor: "#ffffff",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
+                  transition: "left 0.3s ease",
+                }}
               />
             </button>
-            <span className={`text-sm ${annual ? "font-medium" : "text-muted-foreground"}`}>
-              Annual <span className="text-xs text-primary">Save 20%</span>
+            <span
+              style={{
+                fontSize: "0.875rem",
+                fontWeight: annual ? 600 : 400,
+                color: annual ? "#1e293b" : "#94a3b8",
+              }}
+            >
+              Annual{" "}
+              <span
+                style={{
+                  fontSize: "0.75rem",
+                  fontWeight: 600,
+                  background: "linear-gradient(135deg, #22c55e, #16a34a)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                Save 20%
+              </span>
             </span>
           </div>
         </div>
       </section>
 
       {/* Pricing Cards */}
-      <section className="pb-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-8 lg:grid-cols-3">
+      <section style={{ paddingBottom: "6rem" }}>
+        <div style={{ maxWidth: "80rem", margin: "0 auto", padding: "0 1.5rem" }}>
+          <div
+            style={{
+              display: "grid",
+              gap: "2rem",
+              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+              alignItems: "stretch",
+            }}
+          >
             {plans.map((plan) => (
               <div
                 key={plan.name}
-                className={`relative rounded-xl border p-8 flex flex-col ${
-                  plan.popular
-                    ? "border-primary shadow-lg scale-[1.02]"
-                    : "border-border"
-                }`}
+                style={{
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  borderRadius: "1rem",
+                  backgroundColor: "#ffffff",
+                  overflow: "hidden",
+                  border: plan.popular
+                    ? `1px solid #e2e8f0`
+                    : "1px solid #e2e8f0",
+                  borderTop: `3px solid`,
+                  borderImage: `${plan.borderGradient} 1`,
+                  boxShadow: plan.popular
+                    ? "0 20px 60px rgba(118, 75, 162, 0.15), 0 8px 20px rgba(118, 75, 162, 0.1)"
+                    : "0 1px 3px rgba(0,0,0,0.05)",
+                  transform: plan.popular ? "scale(1.03)" : "none",
+                  zIndex: plan.popular ? 10 : 1,
+                }}
               >
                 {plan.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-4 py-1 text-xs font-medium text-primary-foreground">
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "-1px",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      background: "linear-gradient(135deg, #a855f7, #7c3aed)",
+                      color: "#ffffff",
+                      padding: "0.375rem 1rem",
+                      borderRadius: "0 0 9999px 9999px",
+                      fontSize: "0.75rem",
+                      fontWeight: 600,
+                      letterSpacing: "0.05em",
+                      textTransform: "uppercase",
+                    }}
+                  >
                     Most Popular
                   </div>
                 )}
-                <div className="mb-6">
-                  <h3 className="text-xl font-bold">{plan.name}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{plan.description}</p>
+                <div style={{ padding: plan.popular ? "2.5rem 2rem 0" : "2rem 2rem 0" }}>
+                  <h3
+                    style={{
+                      fontSize: "1.25rem",
+                      fontWeight: 700,
+                      color: "#1e293b",
+                    }}
+                  >
+                    {plan.name}
+                  </h3>
+                  <p
+                    style={{
+                      marginTop: "0.5rem",
+                      fontSize: "0.875rem",
+                      color: "#64748b",
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    {plan.description}
+                  </p>
                 </div>
-                <div className="mb-8">
-                  <span className="text-4xl font-bold">
-                    ${annual ? plan.annualPrice : plan.monthlyPrice}
-                  </span>
-                  <span className="text-muted-foreground">/mo</span>
+                <div style={{ padding: "1.5rem 2rem" }}>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: "0.25rem" }}>
+                    <span style={{ fontSize: "3rem", fontWeight: 800, color: "#1e293b" }}>
+                      ${annual ? plan.annualPrice : plan.monthlyPrice}
+                    </span>
+                    <span style={{ fontSize: "1rem", color: "#94a3b8" }}>/mo</span>
+                  </div>
                   {annual && (
-                    <div className="mt-1 text-xs text-muted-foreground">
+                    <div
+                      style={{
+                        marginTop: "0.25rem",
+                        fontSize: "0.75rem",
+                        color: "#94a3b8",
+                      }}
+                    >
                       Billed ${plan.annualPrice * 12}/year
                     </div>
                   )}
                 </div>
-                <ul className="mb-8 space-y-3 flex-1">
+                <ul
+                  style={{
+                    padding: "0 2rem",
+                    marginBottom: "2rem",
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "0.75rem",
+                    listStyle: "none",
+                    margin: "0 2rem 2rem",
+                  }}
+                >
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-sm">
-                      <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                    <li
+                      key={f}
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: "0.5rem",
+                        fontSize: "0.875rem",
+                        color: "#334155",
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      <Check
+                        style={{
+                          width: "1rem",
+                          height: "1rem",
+                          marginTop: "2px",
+                          flexShrink: 0,
+                          color: plan.popular ? "#7c3aed" : plan.name === "Enterprise" ? "#16a34a" : "#667eea",
+                        }}
+                      />
                       {f}
                     </li>
                   ))}
                 </ul>
-                <Link
-                  href="/sign-up"
-                  className={`inline-flex h-11 items-center justify-center rounded-lg text-sm font-medium transition-colors ${
-                    plan.popular
-                      ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                      : "border border-border hover:bg-card"
-                  }`}
-                >
-                  Get Started
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
+                <div style={{ padding: "0 2rem 2rem" }}>
+                  <Link
+                    href="/sign-up"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "0.5rem",
+                      width: "100%",
+                      height: "3rem",
+                      borderRadius: "0.5rem",
+                      fontSize: "0.875rem",
+                      fontWeight: 600,
+                      textDecoration: "none",
+                      transition: "all 0.2s ease",
+                      ...(plan.popular
+                        ? {
+                            background: "linear-gradient(135deg, #a855f7, #7c3aed)",
+                            color: "#ffffff",
+                            boxShadow: "0 4px 14px rgba(124, 58, 237, 0.35)",
+                          }
+                        : {
+                            border: "1px solid #e2e8f0",
+                            backgroundColor: "#ffffff",
+                            color: "#475569",
+                          }),
+                    }}
+                  >
+                    Get Started
+                    <ArrowRight style={{ width: "1rem", height: "1rem" }} />
+                  </Link>
+                </div>
               </div>
             ))}
           </div>
@@ -177,26 +371,90 @@ export default function PricingPage() {
       </section>
 
       {/* FAQ */}
-      <section className="py-24 bg-card/50 border-y border-border">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold">Frequently Asked Questions</h2>
+      <section
+        style={{
+          padding: "6rem 0",
+          background: "linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%)",
+          borderTop: "1px solid #e2e8f0",
+          borderBottom: "1px solid #e2e8f0",
+        }}
+      >
+        <div style={{ maxWidth: "48rem", margin: "0 auto", padding: "0 1.5rem" }}>
+          <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+            <h2
+              style={{
+                fontSize: "clamp(1.875rem, 4vw, 2.5rem)",
+                fontWeight: 800,
+                color: "#1e293b",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Frequently Asked Questions
+            </h2>
           </div>
-          <div className="space-y-4">
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
             {faqs.map((faq, i) => (
-              <div key={i} className="rounded-xl border border-border bg-card overflow-hidden">
+              <div
+                key={i}
+                style={{
+                  borderRadius: "0.75rem",
+                  border: "1px solid #e2e8f0",
+                  backgroundColor: "#ffffff",
+                  overflow: "hidden",
+                  boxShadow: openFaq === i ? "0 4px 12px rgba(0,0,0,0.05)" : "none",
+                  transition: "box-shadow 0.2s ease",
+                }}
+              >
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="flex w-full items-center justify-between p-5 text-left text-sm font-medium"
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "1.25rem 1.5rem",
+                    textAlign: "left",
+                    fontSize: "0.9375rem",
+                    fontWeight: 600,
+                    color: "#1e293b",
+                    backgroundColor: "transparent",
+                    border: "none",
+                    cursor: "pointer",
+                    transition: "background-color 0.2s ease",
+                  }}
                 >
-                  {faq.question}
-                  <span className="ml-4 text-lg text-muted-foreground">
-                    {openFaq === i ? "−" : "+"}
+                  <span>{faq.question}</span>
+                  <span
+                    style={{
+                      marginLeft: "1rem",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "1.75rem",
+                      height: "1.75rem",
+                      borderRadius: "9999px",
+                      backgroundColor: openFaq === i ? "#ede9fe" : "#f1f5f9",
+                      color: openFaq === i ? "#7c3aed" : "#64748b",
+                      fontSize: "1rem",
+                      fontWeight: 700,
+                      flexShrink: 0,
+                      transition: "all 0.2s ease",
+                    }}
+                  >
+                    {openFaq === i ? "\u2212" : "+"}
                   </span>
                 </button>
                 {openFaq === i && (
-                  <div className="px-5 pb-5 text-sm text-muted-foreground">
-                    {faq.answer}
+                  <div
+                    style={{
+                      padding: "0 1.5rem 1.25rem",
+                      fontSize: "0.875rem",
+                      color: "#64748b",
+                      lineHeight: 1.7,
+                      borderTop: "1px solid #f1f5f9",
+                    }}
+                  >
+                    <div style={{ paddingTop: "1rem" }}>{faq.answer}</div>
                   </div>
                 )}
               </div>
@@ -206,18 +464,66 @@ export default function PricingPage() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-24 text-center">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold">Still have questions?</h2>
-          <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
+      <section
+        style={{
+          padding: "6rem 0",
+          textAlign: "center",
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)",
+          color: "#ffffff",
+        }}
+      >
+        <div style={{ maxWidth: "80rem", margin: "0 auto", padding: "0 1.5rem" }}>
+          <h2
+            style={{
+              fontSize: "clamp(1.875rem, 4vw, 2.5rem)",
+              fontWeight: 800,
+              color: "#ffffff",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Still have questions?
+          </h2>
+          <p
+            style={{
+              marginTop: "1rem",
+              fontSize: "1.125rem",
+              color: "rgba(255,255,255,0.85)",
+              maxWidth: "36rem",
+              margin: "1rem auto 0",
+              lineHeight: 1.7,
+            }}
+          >
             Our team is here to help you find the right plan for your business.
           </p>
-          <div className="mt-8 flex items-center justify-center gap-4">
+          <div
+            style={{
+              marginTop: "2.5rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "1rem",
+            }}
+          >
             <Link
               href="/contact"
-              className="inline-flex h-11 items-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                height: "3rem",
+                padding: "0 1.5rem",
+                borderRadius: "0.5rem",
+                backgroundColor: "#ffffff",
+                color: "#764ba2",
+                fontSize: "0.875rem",
+                fontWeight: 700,
+                textDecoration: "none",
+                boxShadow: "0 4px 14px rgba(0,0,0,0.15)",
+                transition: "all 0.2s ease",
+              }}
             >
               Contact Sales
+              <ArrowRight style={{ width: "1rem", height: "1rem" }} />
             </Link>
           </div>
         </div>

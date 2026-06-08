@@ -18,34 +18,34 @@ const footerColumns = [
       { label: "Features", href: "/features" },
       { label: "Pricing", href: "/pricing" },
       { label: "Solutions", href: "/solutions" },
-      { label: "Integrations", href: "/features" },
+      { label: "Integrations", href: "/integrations" },
     ],
   },
   {
     title: "Company",
     links: [
       { label: "About", href: "/about" },
-      { label: "Careers", href: "/about" },
-      { label: "Blog", href: "/about" },
-      { label: "Press", href: "/about" },
+      { label: "Careers", href: "/careers" },
+      { label: "Blog", href: "/blog" },
+      { label: "Contact", href: "/contact" },
     ],
   },
   {
     title: "Resources",
     links: [
-      { label: "Documentation", href: "/features" },
-      { label: "Help Center", href: "/contact" },
-      { label: "API Reference", href: "/features" },
-      { label: "Status", href: "/features" },
+      { label: "Documentation", href: "/documentation" },
+      { label: "Help Center", href: "/help" },
+      { label: "API Reference", href: "/api-reference" },
+      { label: "Status", href: "/status" },
     ],
   },
   {
     title: "Legal",
     links: [
-      { label: "Privacy Policy", href: "/about" },
-      { label: "Terms of Service", href: "/about" },
-      { label: "Cookie Policy", href: "/about" },
-      { label: "GDPR", href: "/about" },
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Terms of Service", href: "/terms" },
+      { label: "Cookie Policy", href: "/cookies" },
+      { label: "GDPR", href: "/gdpr" },
     ],
   },
 ]
@@ -90,13 +90,13 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
 
             <div className="hidden md:flex items-center gap-4">
               <Link
-                href="/sign-in"
+                href="/login"
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
                 Sign In
               </Link>
               <Link
-                href="/sign-up"
+                href="/register"
                 className="inline-flex h-9 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
               >
                 Get Started
@@ -127,14 +127,14 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
               ))}
               <div className="pt-3 border-t border-border space-y-3">
                 <Link
-                  href="/sign-in"
+                  href="/login"
                   className="block text-sm font-medium text-muted-foreground hover:text-foreground"
                   onClick={() => setMobileOpen(false)}
                 >
                   Sign In
                 </Link>
                 <Link
-                  href="/sign-up"
+                  href="/register"
                   className="block text-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
                   onClick={() => setMobileOpen(false)}
                 >

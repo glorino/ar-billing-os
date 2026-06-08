@@ -10,14 +10,14 @@
     --card-foreground: 220 13% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 220 13% 11%;
-    --primary: 252 87% 67%;
+    --primary: 262 83% 58%;
     --primary-foreground: 0 0% 100%;
     --secondary: 220 14% 96%;
     --secondary-foreground: 220 9% 46%;
     --muted: 220 14% 96%;
     --muted-foreground: 220 9% 46%;
-    --accent: 252 87% 97%;
-    --accent-foreground: 252 87% 40%;
+    --accent: 262 83% 96%;
+    --accent-foreground: 262 83% 40%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     --success: 152 69% 31%;
@@ -26,9 +26,31 @@
     --warning-foreground: 0 0% 100%;
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 252 87% 67%;
+    --ring: 262 83% 58%;
     --radius: 0.625rem;
     --sidebar-width: 260px;
+
+    /* Gradient color palette */
+    --gradient-purple-start: #667eea;
+    --gradient-purple-end: #764ba2;
+    --gradient-blue-start: #667eea;
+    --gradient-blue-end: #43e97b;
+    --gradient-cyan-start: #4facfe;
+    --gradient-cyan-end: #00f2fe;
+    --gradient-green-start: #43e97b;
+    --gradient-green-end: #38f9d7;
+    --gradient-orange-start: #fa709a;
+    --gradient-orange-end: #fee140;
+    --gradient-pink-start: #fa709a;
+    --gradient-pink-end: #764ba2;
+    --gradient-red-start: #ff0844;
+    --gradient-red-end: #ffb199;
+    --gradient-sunset-start: #f093fb;
+    --gradient-sunset-end: #f5576c;
+    --gradient-ocean-start: #4facfe;
+    --gradient-ocean-end: #00f2fe;
+    --gradient-forest-start: #11998e;
+    --gradient-forest-end: #38ef7d;
   }
 
   .dark {
@@ -38,14 +60,14 @@
     --card-foreground: 210 20% 95%;
     --popover: 224 20% 10%;
     --popover-foreground: 210 20% 95%;
-    --primary: 252 87% 67%;
+    --primary: 262 83% 58%;
     --primary-foreground: 0 0% 100%;
     --secondary: 224 15% 15%;
     --secondary-foreground: 220 14% 75%;
     --muted: 224 15% 15%;
     --muted-foreground: 220 9% 55%;
-    --accent: 252 40% 18%;
-    --accent-foreground: 252 87% 77%;
+    --accent: 262 40% 18%;
+    --accent-foreground: 262 83% 77%;
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 100%;
     --success: 152 69% 40%;
@@ -54,7 +76,29 @@
     --warning-foreground: 0 0% 100%;
     --border: 224 15% 15%;
     --input: 224 15% 15%;
-    --ring: 252 87% 67%;
+    --ring: 262 83% 58%;
+
+    /* Gradient color palette - dark mode variants */
+    --gradient-purple-start: #8b9cf7;
+    --gradient-purple-end: #a07bd4;
+    --gradient-blue-start: #8b9cf7;
+    --gradient-blue-end: #6ef7a8;
+    --gradient-cyan-start: #7ec4fe;
+    --gradient-cyan-end: #4df8ff;
+    --gradient-green-start: #6ef7a8;
+    --gradient-green-end: #65f7e3;
+    --gradient-orange-start: #fb92b5;
+    --gradient-orange-end: #fee87a;
+    --gradient-pink-start: #fb92b5;
+    --gradient-pink-end: #a07bd4;
+    --gradient-red-start: #ff3e6e;
+    --gradient-red-end: #ffc4ad;
+    --gradient-sunset-start: #f4adfc;
+    --gradient-sunset-end: #f77f8f;
+    --gradient-ocean-start: #7ec4fe;
+    --gradient-ocean-end: #4df8ff;
+    --gradient-forest-start: #3fc9b5;
+    --gradient-forest-end: #62f7a4;
   }
 }
 
@@ -72,7 +116,7 @@
 .bg-mesh {
   background-image:
     radial-gradient(at 0% 0%, hsla(var(--primary) / 0.05) 0px, transparent 50%),
-    radial-gradient(at 98% 1%, hsla(252, 87%, 67%, 0.04) 0px, transparent 50%),
+    radial-gradient(at 98% 1%, hsla(262, 83%, 58%, 0.04) 0px, transparent 50%),
     radial-gradient(at 50% 50%, hsla(var(--primary) / 0.02) 0px, transparent 50%);
 }
 
@@ -159,3 +203,107 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-muted-foreground/30;
 }
+
+/* ============================================
+   COLORFUL GRADIENT DESIGN SYSTEM
+   ============================================ */
+
+/* Colorful gradient backgrounds for cards */
+.gradient-purple { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.gradient-blue { background: linear-gradient(135deg, #667eea 0%, #43e97b 100%); }
+.gradient-cyan { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.gradient-green { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+.gradient-orange { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+.gradient-pink { background: linear-gradient(135deg, #fa709a 0%, #764ba2 100%); }
+.gradient-red { background: linear-gradient(135deg, #ff0844 0%, #ffb199 100%); }
+.gradient-sunset { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.gradient-ocean { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.gradient-forest { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+
+/* Text gradient */
+.text-gradient-purple {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.text-gradient-blue {
+  background: linear-gradient(135deg, #667eea 0%, #4facfe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animated gradient border */
+.gradient-border {
+  position: relative;
+  background: hsl(var(--card));
+  border-radius: calc(var(--radius) + 4px);
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #4facfe);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.gradient-border:hover::before {
+  opacity: 1;
+}
+
+/* Glow effects */
+.glow-purple { box-shadow: 0 0 40px rgba(102, 126, 234, 0.15); }
+.glow-blue { box-shadow: 0 0 40px rgba(79, 172, 254, 0.15); }
+
+/* Animated background mesh */
+.bg-mesh-animated {
+  background-image:
+    radial-gradient(at 40% 20%, hsla(262, 83%, 58%, 0.08) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.06) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 0.05) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, hsla(340, 100%, 76%, 0.04) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(22, 100%, 77%, 0.05) 0px, transparent 50%);
+}
+
+/* Smooth animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float { animation: float 6s ease-in-out infinite; }
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.animate-shimmer { animation: shimmer 3s infinite; }
+
+/* Card hover lift */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Colorful icon backgrounds */
+.icon-bg-purple { background: linear-gradient(135deg, #667eea, #764ba2); }
+.icon-bg-blue { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+.icon-bg-green { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+.icon-bg-orange { background: linear-gradient(135deg, #fa709a, #fee140); }
+.icon-bg-pink { background: linear-gradient(135deg, #f093fb, #f5576c); }
+.icon-bg-cyan { background: linear-gradient(135deg, #4facfe, #00f2fe); }

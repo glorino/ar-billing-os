@@ -2,14 +2,21 @@
 
 import { useEffect, useRef, useState } from "react";
 
+const gradientMap: Record<string, string> = {
+  purple: 'linear-gradient(135deg, #667eea, #764ba2)',
+  green: 'linear-gradient(135deg, #43e97b, #38f9d7)',
+  orange: 'linear-gradient(135deg, #fa709a, #fee140)',
+};
+
 interface StatCardProps {
   value: number;
   label: string;
   prefix?: string;
   duration?: number;
+  color?: string;
 }
 
-export function StatCard({ value, label, prefix = "", duration = 2000 }: StatCardProps) {
+export function StatCard({ value, label, prefix = "", duration = 2000, color = "purple" }: StatCardProps) {
   const [displayValue, setDisplayValue] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const hasAnimated = useRef(false);
@@ -48,7 +55,14 @@ export function StatCard({ value, label, prefix = "", duration = 2000 }: StatCar
 
   return (
     <div ref={ref} className="text-center">
-      <div className="text-4xl sm:text-5xl font-bold font-mono-nums mb-2">
+      <div
+        className="text-4xl sm:text-5xl font-bold font-mono-nums mb-2"
+        style={{
+          background: gradientMap[color] || gradientMap.purple,
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+        }}
+      >
         {prefix}
         {formatted}
       </div>
