@@ -17,6 +17,10 @@ import {
   RotateCcw,
 } from "lucide-react"
 
+import DashboardPreview from "@/components/marketing/dashboard-preview"
+import PaymentFlow from "@/components/marketing/payment-flow"
+import TeamIllustration from "@/components/marketing/team-illustration"
+
 const features = [
   { icon: FileText, title: "Invoice Management", description: "Create, send, and track invoices automatically with smart templates and scheduling.", gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" },
   { icon: Users, title: "Customer Accounts", description: "Maintain detailed customer profiles with complete transaction history and credit management.", gradient: "linear-gradient(135deg, #667eea 0%, #4facfe 100%)" },
@@ -141,6 +145,16 @@ export default function LandingPage() {
         `}</style>
       </section>
 
+      {/* Product Preview */}
+      <section className="py-16 relative">
+        <div className="mx-auto max-w-6xl px-4">
+          <div className="relative rounded-2xl border border-border shadow-2xl overflow-hidden bg-card">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-blue-500/5" />
+            <DashboardPreview />
+          </div>
+        </div>
+      </section>
+
       {/* Features */}
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -201,7 +215,6 @@ export default function LandingPage() {
                 { step: "01", title: "Create Invoice", description: "Generate invoices from templates or integrate directly with your ERP.", icon: FileText, gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" },
                 { step: "02", title: "Send & Track", description: "Automatically deliver invoices via email and track open rates in real-time.", icon: Send, gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)" },
                 { step: "03", title: "Collect Payment", description: "Offer multiple payment methods and send smart reminders for overdue invoices.", icon: CreditCard, gradient: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)" },
-                { step: "04", title: "Reconcile", description: "AI automatically matches payments to invoices and updates your books.", icon: RotateCcw, gradient: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)" },
               ].map((item) => (
                 <div key={item.step} className="relative text-center flex flex-col items-center">
                   <div
@@ -216,6 +229,25 @@ export default function LandingPage() {
                   </div>
                 </div>
               ))}
+            </div>
+
+            <div className="my-12 flex justify-center">
+              <PaymentFlow />
+            </div>
+
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 relative">
+              <div className="relative text-center flex flex-col items-center">
+                <div
+                  className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full text-2xl font-bold text-white shadow-xl relative z-10"
+                  style={{ background: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)" }}
+                >
+                  04
+                </div>
+                <div className="bg-card rounded-xl border border-border p-4 flex-1 w-full">
+                  <h3 className="text-lg font-semibold">Reconcile</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">AI automatically matches payments to invoices and updates your books.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -284,6 +316,35 @@ export default function LandingPage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Built for Teams */}
+      <section className="py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-12 lg:grid-cols-2 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-purple-100 px-4 py-1.5 text-sm font-medium text-purple-700 mb-4">
+                <Users className="h-4 w-4" />
+                Teams
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold">Built for teams</h2>
+              <p className="mt-4 text-muted-foreground">
+                Collaborate seamlessly across finance, sales, and operations with role-based access controls, shared dashboards, and real-time notifications.
+              </p>
+              <ul className="mt-6 space-y-3">
+                {["Role-based permissions", "Shared workflows & approvals", "Audit trail & compliance logging"].map((item) => (
+                  <li key={item} className="flex items-center gap-2 text-sm">
+                    <CheckCircle className="h-5 w-5 text-green-500 shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="flex justify-center">
+              <TeamIllustration />
+            </div>
           </div>
         </div>
       </section>

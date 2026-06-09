@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { ArrowRight, Lightbulb, Shield, Heart, Users, Globe, Award } from "lucide-react"
+import TeamIllustration from "@/components/marketing/team-illustration"
 
 const values = [
   {
@@ -121,6 +122,13 @@ export default function AboutPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Team Illustration */}
+      <section className="py-16">
+        <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 flex justify-center">
+          <TeamIllustration className="w-full" />
         </div>
       </section>
 

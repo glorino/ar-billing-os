@@ -15,6 +15,9 @@ import {
   RefreshCw,
   Layers,
 } from "lucide-react"
+import InvoicePreview from "@/components/marketing/invoice-preview"
+import PaymentFlow from "@/components/marketing/payment-flow"
+import DashboardPreview from "@/components/marketing/dashboard-preview"
 
 const featureColors = {
   purple: { gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', light: '#f3e8ff', dark: '#764ba2' },
@@ -34,36 +37,7 @@ const detailedFeatures = [
     description: "Create, customize, and send invoices in seconds. Automate recurring billing, apply smart templates, and eliminate manual data entry with AI-powered invoice generation.",
     highlights: ["Smart templates", "Recurring billing", "Bulk send", "Auto-capture data"],
     color: 'purple',
-    mockup: (
-      <div className="relative rounded-xl border border-border bg-card p-6 shadow-lg">
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="h-3 w-24 rounded bg-primary/20" />
-            <div className="h-3 w-16 rounded bg-muted" />
-          </div>
-          <div className="h-px bg-border" />
-          {["INV-2024-001", "INV-2024-002", "INV-2024-003"].map((inv) => (
-            <div key={inv} className="flex items-center justify-between rounded-lg border border-border p-3">
-              <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded bg-primary/10 text-xs font-medium text-primary">
-                  <FileText className="h-4 w-4" />
-                </div>
-                <div>
-                  <div className="text-xs font-medium">{inv}</div>
-                  <div className="text-[10px] text-muted-foreground">Acme Corp</div>
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-xs font-medium">$2,450.00</div>
-                <div className="flex items-center gap-1 text-[10px] text-emerald-500">
-                  <CheckCircle className="h-3 w-3" /> Paid
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
+    mockup: <InvoicePreview />,
   },
   {
     icon: TrendingUp,
@@ -110,29 +84,7 @@ const detailedFeatures = [
     description: "Accept payments through ACH, wire transfer, credit cards, and international methods. Real-time reconciliation automatically matches payments to invoices.",
     highlights: ["ACH & Wire", "Credit cards", "Auto-reconciliation", "Multi-bank"],
     color: 'green',
-    mockup: (
-      <div className="relative rounded-xl border border-border bg-card p-6 shadow-lg">
-        <div className="space-y-3">
-          <div className="grid grid-cols-3 gap-2">
-            {["ACH", "Wire", "Card"].map((method) => (
-              <div key={method} className="rounded-lg border border-border p-3 text-center">
-                <div className="mx-auto mb-1 flex h-8 w-8 items-center justify-center rounded bg-primary/10">
-                  <CreditCard className="h-4 w-4 text-primary" />
-                </div>
-                <div className="text-[10px] font-medium">{method}</div>
-              </div>
-            ))}
-          </div>
-          <div className="rounded-lg border border-border p-3">
-            <div className="text-[10px] text-muted-foreground mb-1">Latest Transaction</div>
-            <div className="flex items-center justify-between">
-              <div className="text-xs font-medium">$5,200.00 - Wire</div>
-              <div className="text-[10px] text-emerald-500">Confirmed</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    ),
+    mockup: <PaymentFlow />,
   },
   {
     icon: BarChart3,
@@ -141,27 +93,8 @@ const detailedFeatures = [
     highlights: ["Real-time dashboards", "DSO tracking", "Custom reports", "Cash flow forecast"],
     color: 'orange',
     mockup: (
-      <div className="relative rounded-xl border border-border bg-card p-6 shadow-lg">
-        <div className="space-y-3">
-          <div className="grid grid-cols-2 gap-2">
-            <div className="rounded-lg border border-border p-2">
-              <div className="text-[10px] text-muted-foreground">DSO</div>
-              <div className="text-sm font-bold text-primary">32 days</div>
-            </div>
-            <div className="rounded-lg border border-border p-2">
-              <div className="text-[10px] text-muted-foreground">Collected</div>
-              <div className="text-sm font-bold text-emerald-500">$1.2M</div>
-            </div>
-          </div>
-          <div className="rounded-lg border border-border p-3">
-            <div className="text-[10px] text-muted-foreground mb-2">Revenue Trend</div>
-            <div className="flex items-end gap-1 h-16">
-              {[40, 55, 45, 65, 70, 80, 75, 90].map((h, i) => (
-                <div key={i} className="flex-1 rounded-t bg-primary/30" style={{ height: `${h}%` }} />
-              ))}
-            </div>
-          </div>
-        </div>
+      <div className="scale-90 origin-top-left">
+        <DashboardPreview />
       </div>
     ),
   },

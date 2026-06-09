@@ -6,12 +6,9 @@ import {
   Search,
   Plus,
   Users,
-  Mail,
   DollarSign,
   FileText,
   ArrowUpRight,
-  Building2,
-  Filter,
 } from "lucide-react";
 
 const customers = [
@@ -24,6 +21,17 @@ const customers = [
   { id: "7", name: "Innovate Labs", email: "accounts@innovatelabs.ai", outstanding: 0, invoices: 6, since: "Jul 2024", status: "active", initials: "IL" },
   { id: "8", name: "Pinnacle Corp", email: "finance@pinnacle.com", outstanding: 4200, invoices: 10, since: "Apr 2023", status: "active", initials: "PC" },
 ];
+
+const avatarGradients: Record<string, string> = {
+  "Acme Corp": "linear-gradient(135deg, #7c3aed, #a855f7, #c084fc)",
+  "TechStart Inc": "linear-gradient(135deg, #2563eb, #3b82f6, #60a5fa)",
+  "Global Solutions": "linear-gradient(135deg, #16a34a, #22c55e, #4ade80)",
+  "Digital Ventures": "linear-gradient(135deg, #ea580c, #f97316, #fb923c)",
+  "CloudNine Ltd": "linear-gradient(135deg, #0891b2, #06b6d4, #22d3ee)",
+  "DataFlow Systems": "linear-gradient(135deg, #db2777, #ec4899, #f472b6)",
+  "Innovate Labs": "linear-gradient(135deg, #dc2626, #ea580c, #f59e0b)",
+  "Pinnacle Corp": "linear-gradient(135deg, #0369a1, #0284c7, #38bdf8)",
+};
 
 function formatMoney(amount: number): string {
   return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 }).format(amount);
@@ -44,18 +52,31 @@ export default function CustomersPage() {
   const totalInvoices = customers.reduce((sum, c) => sum + c.invoices, 0);
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 p-6 space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Customers</h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <h1
+            className="text-3xl sm:text-4xl font-extrabold tracking-tight"
+            style={{
+              background: "linear-gradient(135deg, #7c3aed, #2563eb, #06b6d4)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            Customers
+          </h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
             Manage your customer accounts and billing relationships.
           </p>
         </div>
         <Link
           href="/customers/new"
-          className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors"
+          className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+          style={{
+            background: "linear-gradient(135deg, #7c3aed, #2563eb)",
+          }}
         >
           <Plus className="h-4 w-4" />
           New Customer
@@ -64,87 +85,132 @@ export default function CustomersPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="rounded-xl border bg-card p-5 card-elevated">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-muted-foreground">Total Customers</p>
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
-              <Users className="h-4 w-4 text-primary" />
+        <div className="group relative rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm transition-all duration-200 hover:shadow-md overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="relative flex items-center justify-between">
+            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Customers</p>
+            <div
+              className="flex h-10 w-10 items-center justify-center rounded-xl shadow-sm"
+              style={{ background: "linear-gradient(135deg, #7c3aed, #a855f7)" }}
+            >
+              <Users className="h-5 w-5 text-white" />
             </div>
           </div>
-          <p className="mt-3 text-2xl font-bold tracking-tight font-mono-nums">{customers.length}</p>
+          <p className="relative mt-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+            {customers.length}
+          </p>
         </div>
-        <div className="rounded-xl border bg-card p-5 card-elevated">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-muted-foreground">Total Outstanding</p>
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-warning/10">
-              <DollarSign className="h-4 w-4 text-warning" />
+
+        <div className="group relative rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm transition-all duration-200 hover:shadow-md overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="relative flex items-center justify-between">
+            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Outstanding</p>
+            <div
+              className="flex h-10 w-10 items-center justify-center rounded-xl shadow-sm"
+              style={{ background: "linear-gradient(135deg, #d97706, #f59e0b)" }}
+            >
+              <DollarSign className="h-5 w-5 text-white" />
             </div>
           </div>
-          <p className="mt-3 text-2xl font-bold tracking-tight font-mono-nums">{formatMoney(totalOutstanding)}</p>
+          <p className="relative mt-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+            {formatMoney(totalOutstanding)}
+          </p>
         </div>
-        <div className="rounded-xl border bg-card p-5 card-elevated">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-muted-foreground">Total Invoices</p>
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-success/10">
-              <FileText className="h-4 w-4 text-success" />
+
+        <div className="group relative rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm transition-all duration-200 hover:shadow-md overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="relative flex items-center justify-between">
+            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Invoices</p>
+            <div
+              className="flex h-10 w-10 items-center justify-center rounded-xl shadow-sm"
+              style={{ background: "linear-gradient(135deg, #059669, #10b981)" }}
+            >
+              <FileText className="h-5 w-5 text-white" />
             </div>
           </div>
-          <p className="mt-3 text-2xl font-bold tracking-tight font-mono-nums">{totalInvoices}</p>
+          <p className="relative mt-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+            {totalInvoices}
+          </p>
         </div>
       </div>
 
       {/* Search */}
       <div className="relative max-w-md">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
         <input
           type="text"
           placeholder="Search customers..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="h-10 w-full rounded-lg border bg-card pl-9 pr-4 text-sm placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 card-elevated"
+          className="h-11 w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 pl-10 pr-4 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500/40 shadow-sm transition-all"
         />
       </div>
 
       {/* Customer Grid */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filtered.map((customer) => (
           <Link
             key={customer.id}
             href={`/customers/${customer.id}`}
-            className="group rounded-xl border bg-card p-5 card-elevated-hover cursor-pointer block"
+            className="group relative rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 cursor-pointer block transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-transparent"
+            style={{
+              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+            }}
+            onMouseEnter={(e) => {
+              const card = e.currentTarget;
+              const gradient = avatarGradients[customer.name] || "linear-gradient(135deg, #7c3aed, #a855f7)";
+              card.style.boxShadow = "0 8px 32px rgba(0,0,0,0.12)";
+              card.style.borderColor = "transparent";
+              card.style.background = "linear-gradient(white, white) padding-box, " + gradient.replace(")", ", 0.3)") + " border-box";
+              card.style.border = "2px solid transparent";
+            }}
+            onMouseLeave={(e) => {
+              const card = e.currentTarget;
+              card.style.boxShadow = "";
+              card.style.borderColor = "";
+              card.style.background = "";
+              card.style.border = "";
+            }}
           >
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
+                <div
+                  className="flex h-11 w-11 items-center justify-center rounded-xl text-sm font-bold text-white shadow-md"
+                  style={{
+                    background: avatarGradients[customer.name] || "linear-gradient(135deg, #7c3aed, #a855f7)",
+                  }}
+                >
                   {customer.initials}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold truncate">{customer.name}</p>
-                  <p className="text-xs text-muted-foreground truncate">{customer.email}</p>
+                  <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{customer.name}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{customer.email}</p>
                 </div>
               </div>
-              <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+              <ArrowUpRight className="h-4 w-4 text-gray-300 dark:text-gray-600 opacity-0 group-hover:opacity-100 transition-all duration-200 group-hover:text-purple-500" />
             </div>
-            <div className="mt-4 pt-4 border-t border-border grid grid-cols-2 gap-3">
+
+            <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 grid grid-cols-2 gap-3">
               <div>
-                <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Outstanding</p>
-                <p className="text-sm font-semibold font-mono-nums mt-0.5">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">Outstanding</p>
+                <p className="text-sm font-bold mt-0.5">
                   {customer.outstanding > 0 ? (
-                    <span className="text-warning">{formatMoney(customer.outstanding)}</span>
+                    <span className="text-red-500 dark:text-red-400">{formatMoney(customer.outstanding)}</span>
                   ) : (
-                    <span className="text-success">{formatMoney(0)}</span>
+                    <span className="text-emerald-500 dark:text-emerald-400">{formatMoney(0)}</span>
                   )}
                 </p>
               </div>
               <div>
-                <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Invoices</p>
-                <p className="text-sm font-semibold font-mono-nums mt-0.5">{customer.invoices}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">Invoices</p>
+                <p className="text-sm font-bold text-gray-900 dark:text-white mt-0.5">{customer.invoices}</p>
               </div>
             </div>
+
             <div className="mt-3 flex items-center justify-between">
-              <span className="text-xs text-muted-foreground">Customer since {customer.since}</span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-success/10 px-2 py-0.5 text-[10px] font-semibold text-success">
-                <span className="h-1 w-1 rounded-full bg-success" />
+              <span className="text-xs text-gray-400 dark:text-gray-500">Customer since {customer.since}</span>
+              <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 Active
               </span>
             </div>
@@ -152,11 +218,17 @@ export default function CustomersPage() {
         ))}
       </div>
 
+      {/* Empty State */}
       {filtered.length === 0 && (
-        <div className="text-center py-12">
-          <Users className="h-12 w-12 text-muted-foreground/30 mx-auto mb-3" />
-          <p className="text-sm font-medium text-muted-foreground">No customers found</p>
-          <p className="text-xs text-muted-foreground/60 mt-1">Try adjusting your search terms</p>
+        <div className="text-center py-16">
+          <div
+            className="h-16 w-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
+            style={{ background: "linear-gradient(135deg, #e9d5ff, #dbeafe)" }}
+          >
+            <Users className="h-8 w-8 text-purple-500" />
+          </div>
+          <p className="text-base font-semibold text-gray-900 dark:text-white">No customers found</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Try adjusting your search terms</p>
         </div>
       )}
     </div>
