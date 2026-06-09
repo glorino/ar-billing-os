@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { spacing, borderRadius } from '@/lib/theme';
 
 interface SearchBarProps {
   placeholder?: string;
@@ -31,18 +32,28 @@ export function SearchBar({
     debouncedSearch(text);
   };
 
+  const handleClear = () => {
+    setValue('');
+    onSearch('');
+  };
+
   return (
     <View style={styles.container}>
-      <Ionicons name="search" size={20} color="#94a3b8" style={styles.icon} />
+      <Ionicons name="search" size={18} color="#94A3B8" style={styles.icon} />
       <TextInput
         style={styles.input}
         placeholder={placeholder}
-        placeholderTextColor="#94a3b8"
+        placeholderTextColor="#94A3B8"
         value={value}
         onChangeText={handleChange}
         autoCorrect={false}
         autoCapitalize="none"
       />
+      {value.length > 0 && (
+        <TouchableOpacity onPress={handleClear} style={styles.clearButton}>
+          <Ionicons name="close-circle" size={18} color="#94A3B8" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -51,18 +62,24 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f1f5f9',
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    marginBottom: 16,
+    backgroundColor: '#FFFFFF',
+    borderRadius: borderRadius.md,
+    paddingHorizontal: spacing.md,
+    marginBottom: spacing.lg,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    height: 48,
   },
   icon: {
-    marginRight: 8,
+    marginRight: spacing.sm,
   },
   input: {
     flex: 1,
-    height: 44,
-    fontSize: 16,
-    color: '#0f172a',
+    height: 48,
+    fontSize: 15,
+    color: '#0F172A',
+  },
+  clearButton: {
+    padding: spacing.xs,
   },
 });

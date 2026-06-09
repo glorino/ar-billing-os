@@ -1,8 +1,11 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import type { Customer } from '@/lib/types';
 import { formatCurrency } from '@/lib/utils';
+import { colors, shadows, spacing, borderRadius, getAvatarGradient, getInitials } from '@/lib/theme';
 
 interface CustomerCardProps {
   customer: Customer;
@@ -10,23 +13,24 @@ interface CustomerCardProps {
 
 export function CustomerCard({ customer }: CustomerCardProps) {
   const router = useRouter();
-
-  const initials = customer.name
-    .split(' ')
-    .map((n) => n[0])
-    .join('')
-    .toUpperCase()
-    .slice(0, 2);
+  const initials = getInitials(customer.name);
+  const gradient = getAvatarGradient(customer.name);
+  const hasOutstanding = customer.outstandingBalance > 0;
 
   return (
     <TouchableOpacity
-      style={styles.card}
+      style={[styles.card, shadows.sm]}
       onPress={() => router.push(`/customer/${customer.id}`)}
       activeOpacity={0.7}
     >
-      <View style={styles.avatar}>
+      <LinearGradient
+        colors={gradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.avatar}
+      >
         <Text style={styles.avatarText}>{initials}</Text>
-      </View>
+      </LinearGradient>
 
       <View style={styles.info}>
         <Text style={styles.name}>{customer.name}</Text>
@@ -35,11 +39,14 @@ export function CustomerCard({ customer }: CustomerCardProps) {
 
       <View style={styles.balanceContainer}>
         <Text style={styles.balanceLabel}>Outstanding</Text>
-        <Text
-          style={[styles.balanceAmount, customer.outstandingBalance > 0 && styles.hasBalance]}
-        >
+        <Text style={[styles.balanceAmount, hasOutstanding ? styles.hasBalance : styles.isClear]}>
           {formatCurrency(customer.outstandingBalance)}
         </Text>
+        {hasOutstanding ? (
+          <View style={styles.alertDot} />
+        ) : (
+          <Ionicons name="checkmark-circle" size={14} color={colors.success} />
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -49,41 +56,35 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
-    elevation: 2,
+    backgroundColor: '#FFFFFF',
+    borderRadius: borderRadius.lg,
+    padding: spacing.lg,
+    marginBottom: spacing.md,
   },
   avatar: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: '#e0e7ff',
-    justifyContent: 'center',
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     alignItems: 'center',
-    marginRight: 12,
+    justifyContent: 'center',
+    marginRight: spacing.md,
   },
   avatarText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#4f46e5',
+    fontSize: 17,
+    fontWeight: '700',
+    color: '#FFFFFF',
   },
   info: {
     flex: 1,
   },
   name: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#0f172a',
+    fontWeight: '700',
+    color: '#0F172A',
   },
   email: {
     fontSize: 13,
-    color: '#64748b',
+    color: '#64748B',
     marginTop: 2,
   },
   balanceContainer: {
@@ -91,15 +92,27 @@ const styles = StyleSheet.create({
   },
   balanceLabel: {
     fontSize: 11,
-    color: '#94a3b8',
+    color: '#94A3B8',
+    fontWeight: '500',
+    textTransform: 'uppercase',
+    letterSpacing: 0.3,
   },
   balanceAmount: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#22c55e',
+    fontWeight: '700',
     marginTop: 2,
   },
   hasBalance: {
-    color: '#ef4444',
+    color: '#EF4444',
+  },
+  isClear: {
+    color: '#22C55E',
+  },
+  alertDot: {
+    width: 7,
+    height: 7,
+    borderRadius: 3.5,
+    backgroundColor: '#EF4444',
+    marginTop: 4,
   },
 });
