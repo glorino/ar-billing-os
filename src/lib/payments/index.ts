@@ -1,11 +1,13 @@
 export { PaymentService, getAdapter, getAdapterForCountry } from './service';
 export { StripeAdapter } from './providers/stripe';
 export { PaystackAdapter } from './providers/paystack';
+export { FlutterwaveAdapter } from './providers/flutterwave';
 export {
   PaymentProviderEnum,
   getPaymentProvider,
   AfricanCountries,
   StripeCountries,
+  FlutterwaveCountries,
   type PaymentProvider,
   type PaymentProviderAdapter,
   type PaymentIntent,

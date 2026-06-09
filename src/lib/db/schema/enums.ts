@@ -15,5 +15,5 @@ export const ledgerEntryTypeEnum = pgEnum('ledger_entry_type', ['debit', 'credit
 export const ledgerAccountTypeEnum = pgEnum('ledger_account_type', ['asset', 'liability', 'equity', 'revenue', 'expense']);
 export const lineItemTypeEnum = pgEnum('line_item_type', ['subscription', 'usage', 'one_time', 'fee', 'discount', 'tax', 'credit']);
 export const discountTypeEnum = pgEnum('discount_type', ['percentage', 'fixed_amount']);
-export const currencyEnum = pgEnum('currency', ['USD', 'EUR', 'GBP', 'CAD', 'AUD', 'JPY', 'CHF']);
+export const currencyEnum = pgEnum('currency', ['USD', 'EUR', 'GBP', 'CAD', 'AUD', 'JPY', 'CHF', 'NGN', 'GHS', 'KES', 'ZAR', 'TZS', 'UGX', 'RWF', 'XOF', 'XAF']);
 export const periodStatusEnum = pgEnum('period_status', ['current', 'closed', 'reconciled']);

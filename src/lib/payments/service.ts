@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import { payments, invoices, customers, currencyEnum } from '@/lib/db/schema';
 import { StripeAdapter } from './providers/stripe';
 import { PaystackAdapter } from './providers/paystack';
+import { FlutterwaveAdapter } from './providers/flutterwave';
 import { getPaymentProvider, type PaymentProvider, type PaymentProviderAdapter } from './types';
 import type {
   CreatePaymentIntentInput,
@@ -14,6 +15,7 @@ import type {
 
 let stripeInstance: StripeAdapter | null = null;
 let paystackInstance: PaystackAdapter | null = null;
+let flutterwaveInstance: FlutterwaveAdapter | null = null;
 
 function getStripe(): StripeAdapter {
   if (!stripeInstance) {
@@ -29,12 +31,24 @@ function getPaystack(): PaystackAdapter {
   return paystackInstance;
 }
 
+function getFlutterwave(): FlutterwaveAdapter {
+  if (!flutterwaveInstance) {
+    flutterwaveInstance = new FlutterwaveAdapter(
+      process.env.FLUTTERWAVE_SECRET_KEY!,
+      process.env.FLUTTERWAVE_ENCRYPTION_KEY
+    );
+  }
+  return flutterwaveInstance;
+}
+
 export function getAdapter(provider: PaymentProvider): PaymentProviderAdapter {
   switch (provider) {
     case 'stripe':
       return getStripe();
     case 'paystack':
       return getPaystack();
+    case 'flutterwave':
+      return getFlutterwave();
     default:
       throw new Error(`Unknown payment provider: ${provider}`);
   }
@@ -229,5 +243,9 @@ export class PaymentService {
 
   static get paystack(): PaystackAdapter {
     return getPaystack();
+  }
+
+  static get flutterwave(): FlutterwaveAdapter {
+    return getFlutterwave();
   }
 }

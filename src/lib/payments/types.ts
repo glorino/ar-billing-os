@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const PaymentProviderEnum = z.enum(['stripe', 'paystack']);
+export const PaymentProviderEnum = z.enum(['stripe', 'paystack', 'flutterwave']);
 export type PaymentProvider = z.infer<typeof PaymentProviderEnum>;
 
 export const AfricanCountries = [
@@ -16,9 +16,16 @@ export const StripeCountries = [
 ] as const;
 export type StripeCountry = (typeof StripeCountries)[number];
 
+export const FlutterwaveCountries = [
+  'NG', 'GH', 'KE', 'ZA', 'TZ', 'UG', 'RW', 'SN', 'CI', 'CM',
+  'ET', 'MO', 'MZ', 'ZM', 'ZW', 'BW', 'NA', 'MU', 'MG', 'RE',
+  'US', 'GB', 'EU',
+] as const;
+export type FlutterwaveCountry = (typeof FlutterwaveCountries)[number];
+
 export function getPaymentProvider(country: string): PaymentProvider {
   if ((AfricanCountries as readonly string[]).includes(country)) {
-    return 'paystack';
+    return 'flutterwave';
   }
   return 'stripe';
 }
