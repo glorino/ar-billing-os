@@ -28,7 +28,9 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const navigation = [
+type Role = "admin" | "manager" | "viewer";
+
+const allNavigation = [
   {
     label: "Overview",
     items: [
@@ -61,14 +63,36 @@ const navigation = [
   },
 ];
 
+function getNavigationForRole(role: Role) {
+  if (role === "admin") {
+    return allNavigation;
+  }
+
+  if (role === "manager") {
+    return allNavigation.filter((group) => group.label !== "Admin");
+  }
+
+  // viewer: Dashboard, Analytics, Invoices, Customers, Reports
+  const viewerAllowed = ["Dashboard", "Analytics", "Invoices", "Customers", "Reports"];
+  return allNavigation
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) => viewerAllowed.includes(item.name)),
+    }))
+    .filter((group) => group.items.length > 0);
+}
+
 function Sidebar({
   collapsed,
   onToggle,
+  role,
 }: {
   collapsed: boolean;
   onToggle: () => void;
+  role: Role;
 }) {
   const pathname = usePathname();
+  const navigation = getNavigationForRole(role);
 
   return (
     <aside
@@ -203,7 +227,7 @@ function Sidebar({
                 <p className="text-[13px] font-semibold text-foreground truncate">
                   John Doe
                 </p>
-                <p className="text-[11px] text-muted-foreground">Admin</p>
+                <p className="text-[11px] text-muted-foreground capitalize">{role}</p>
               </div>
               <ChevronDown className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
             </div>
@@ -215,7 +239,7 @@ function Sidebar({
                 JD
               </div>
               <div className="pointer-events-none absolute left-full top-1/2 z-50 ml-3 -translate-y-1/2 rounded-lg border border-border bg-popover px-3 py-1.5 text-sm font-medium text-popover-foreground shadow-lg opacity-0 transition-opacity duration-200 group-hover:opacity-100 whitespace-nowrap">
-                John Doe - Admin
+                John Doe - <span className="capitalize">{role}</span>
                 <div className="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 h-2 w-2 rotate-45 border-l border-b border-border bg-popover" />
               </div>
             </div>
@@ -226,8 +250,10 @@ function Sidebar({
   );
 }
 
-function TopBar() {
+function TopBar({ role, onRoleChange }: { role: Role; onRoleChange: (r: Role) => void }) {
   const [searchFocused, setSearchFocused] = useState(false);
+
+  const roles: Role[] = ["admin", "manager", "viewer"];
 
   return (
     <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b border-border bg-card/80 backdrop-blur-xl px-6">
@@ -265,6 +291,27 @@ function TopBar() {
 
       {/* Right: Actions */}
       <div className="flex items-center gap-1.5">
+        {/* Role Switcher */}
+        <div className="flex items-center rounded-full border border-border bg-muted/30 p-0.5">
+          {roles.map((r) => (
+            <button
+              key={r}
+              onClick={() => onRoleChange(r)}
+              className={cn(
+                "rounded-full px-3 py-1 text-[11px] font-semibold capitalize transition-all duration-200",
+                role === r
+                  ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-500/20"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              {r}
+            </button>
+          ))}
+        </div>
+
+        {/* Divider */}
+        <div className="mx-1.5 h-6 w-px bg-border" />
+
         {/* Notification bell */}
         <button className="relative flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
           <Bell className="h-[18px] w-[18px]" />
@@ -298,12 +345,14 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [collapsed, setCollapsed] = useState(false);
+  const [role, setRole] = useState<Role>("admin");
 
   return (
     <div className="min-h-screen bg-background">
       <Sidebar
         collapsed={collapsed}
         onToggle={() => setCollapsed(!collapsed)}
+        role={role}
       />
 
       <div
@@ -312,7 +361,7 @@ export default function DashboardLayout({
           collapsed ? "ml-[68px]" : "ml-[260px]"
         )}
       >
-        <TopBar />
+        <TopBar role={role} onRoleChange={setRole} />
         <main className="p-6">{children}</main>
       </div>
     </div>

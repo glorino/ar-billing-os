@@ -20,6 +20,9 @@ import {
 import DashboardPreview from "@/components/marketing/dashboard-preview"
 import PaymentFlow from "@/components/marketing/payment-flow"
 import TeamIllustration from "@/components/marketing/team-illustration"
+import StatsInfographic from "@/components/marketing/stats-infographic"
+import SecurityBadge from "@/components/marketing/security-badge"
+import GlobalReach from "@/components/marketing/global-reach"
 
 const features = [
   { icon: FileText, title: "Invoice Management", description: "Create, send, and track invoices automatically with smart templates and scheduling.", gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" },
@@ -143,6 +146,19 @@ export default function LandingPage() {
             50% { transform: translateY(-20px); }
           }
         `}</style>
+      </section>
+
+      {/* Security & Compliance */}
+      <section className="py-16 border-y border-border">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold">Enterprise-Grade Security</h2>
+            <p className="text-muted-foreground mt-2">Your data is protected with industry-leading security</p>
+          </div>
+          <div className="flex justify-center">
+            <SecurityBadge />
+          </div>
+        </div>
       </section>
 
       {/* Product Preview */}
@@ -272,6 +288,19 @@ export default function LandingPage() {
                 <div className="mt-3 text-lg text-muted-foreground font-medium">{s.label}</div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Global Reach */}
+      <section className="py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold">Global Payment Coverage</h2>
+            <p className="text-muted-foreground mt-2">Accept payments from anywhere in the world</p>
+          </div>
+          <div className="flex justify-center">
+            <GlobalReach />
           </div>
         </div>
       </section>
