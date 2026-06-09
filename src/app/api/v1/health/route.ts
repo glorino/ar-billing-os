@@ -21,6 +21,7 @@ export async function GET() {
           database: isHealthy ? 'connected' : 'disconnected',
           stripe: process.env.STRIPE_SECRET_KEY ? 'configured' : 'not_configured',
           paystack: process.env.PAYSTACK_SECRET_KEY ? 'configured' : 'not_configured',
+          flutterwave: process.env.FLUTTERWAVE_SECRET_KEY ? 'configured' : 'not_configured',
           clerk: process.env.CLERK_SECRET_KEY ? 'configured' : 'not_configured',
         },
       },
